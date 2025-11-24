@@ -30,27 +30,49 @@ corporate = ['company.ru', 'corporation.com', 'university.edu',
              'organization.org', 'company.ru', 'business.net']
 personal_domens = list(set(personal))
 corporate_domens = list(set(corporate))
-print(personal_domens)
 # 7. Проверьте что в списке личных и корпоративных доменов нет пересечений:
-intersection = set(personal_domens) & set(corporate_domens)
-if intersection:
-    print("пересечения есть", intersection)
-else:
-    print(f"пересечений нет")
+intersection = not set(personal_domens) & set(corporate_domens)
 # 8.Проверьте «корпоративность» отправителя:
 # создайте булеву переменную is_corporate, равную результату проверки
 # вхождения домена отправителя в список корпоративных доменов.
 is_corporate = domain in corporate_domens
-print(is_corporate)
 # 9.Соберите «чистый» текст сообщения без табов и переводов строк:
 # замените "\t" и "\n" на пробел.
 # Сохраните в email["clean_body"].
 email1["clean_body"] = email1["body"].replace("\t", " ").replace("\n", " ")
-print(email1["clean_body"])
 # 10.Сформируйте текст отправленного письма многострочной
 # f-строкой и сохраните в email["sent_text"]:
 # Кому: {получатель}, от {отправитель}
 # Тема: {тема письма}, дата {дата} {чистый текст сообщения}
-email1["sent_text"] = f'Кому: {email1["to"]}, от {email1["from"]} Тема: {email1["subject"]}, дата {send_date} {email1["clean_body"]}'
-print(email1["sent_text"])
-# 11
+email1["sent_text"] = f'Кому: {email1["to"]}, от {email1["from"]}\nТема: {email1["subject"]}, \nдата {send_date} \n{email1["clean_body"]}'
+# 11Рассчитайте количество страниц печати для email["sent_text"], если на 1 страницу помещается 500 символов.
+# Сохраните результат в переменную pages. Значение должно быть округленно в большую сторону.
+pages = (len(email1["sent_text"])+499)//500
+# 12.Проверьте пустоту темы и тела письма:
+# создайте переменные is_subject_empty, is_body_empty в котором будет хранится что тема письма содержит данные.
+is_subject_empty = not email1["subject"]
+is_body_empty = not email1["body"]
+# 13.Создайте «маску» e-mail отправителя: первые 2 символа логина + "***@" + домен.
+# Запишите в email["masked_from"].
+email1["masked_from"] = login[:2] + "***@" + domain
+# 14 Удалите из списка личных доменов значения "list.ru" и "bk.ru".
+personal_domens.remove("list.ru")
+personal_domens.remove("bk.ru")
+#Итог
+print(f'1.{email1}, \n'
+      f'2.{email1["date"]}, \n'
+      f'3.{email1["from"]},{email1["to"]}, \n'
+      f'4.{login}, {domain}, \n'
+      f'5.{email1["short_body"]}, \n'
+      f'6.{personal_domens}, {corporate_domens}, \n'
+      f'7.{intersection}, \n'
+      f'8.{is_corporate}, \n'
+      f'9.{email1["clean_body"]}, \n'
+      f'10.{email1["sent_text"]}, \n'
+      f'11.{pages}, \n'
+      f'12.{is_subject_empty},{is_body_empty}, \n'
+      f'13.{email1["masked_from"]}, \n'
+      f'14.{personal_domens}.'
+      )
+
+
