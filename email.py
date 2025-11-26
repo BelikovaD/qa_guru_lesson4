@@ -31,7 +31,7 @@ corporate = ['company.ru', 'corporation.com', 'university.edu',
 personal_domens = list(set(personal))
 corporate_domens = list(set(corporate))
 # 7. Проверьте что в списке личных и корпоративных доменов нет пересечений:
-intersection = not set(personal_domens) & set(corporate_domens)
+intersection = set(personal_domens) & set(corporate_domens)
 # 8.Проверьте «корпоративность» отправителя:
 # создайте булеву переменную is_corporate, равную результату проверки
 # вхождения домена отправителя в список корпоративных доменов.
@@ -50,8 +50,8 @@ email1["sent_text"] = f'Кому: {email1["to"]}, от {email1["from"]}\nТем�
 pages = (len(email1["sent_text"])+499)//500
 # 12.Проверьте пустоту темы и тела письма:
 # создайте переменные is_subject_empty, is_body_empty в котором будет хранится что тема письма содержит данные.
-is_subject_empty = not email1["subject"]
-is_body_empty = not email1["body"]
+is_subject_empty = not email1["subject"].strip()
+is_body_empty = not email1["body"].strip()
 # 13.Создайте «маску» e-mail отправителя: первые 2 символа логина + "***@" + домен.
 # Запишите в email["masked_from"].
 email1["masked_from"] = login[:2] + "***@" + domain
